@@ -6,7 +6,7 @@ include("${WUT_ROOT}/share/wut.cmake" REQUIRED)
 find_program(found-wiiload wiiload)
 
 add_executable(pong
-    main.c
+    src/main.c
 )
 
 target_link_libraries(pong

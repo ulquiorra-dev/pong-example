@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF=8" standalone="yes" ?>
+<app version="1">
+    <name>Wii U Pong Game</name>
+    <coder>CreeperMario</coder>
+    <version>v1.0</version>
+    <release_date>20181219090000</release_date>
+    <short_description>Basic example game project</short_description>
+    <long_description>This is a small example game project aimed at showing off some of the features in WUT that make interfacing with the Wii U's various functions easier, and how a basic game project would look like on the Wii U. See https://github.com/CreeperMario/pong-example for more information.</long_description>
+</app>
