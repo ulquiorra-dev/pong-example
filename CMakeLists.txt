@@ -31,3 +31,7 @@ else()
         VERBATIM
     )
 endif()
+
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
+    ${CMAKE_BINARY_DIR}/pong.rpx
+)
