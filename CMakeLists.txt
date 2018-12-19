@@ -49,13 +49,36 @@ install(CODE "execute_process(
     WORKING_DIRECTORY \"${CMAKE_BINARY_DIR}/unpacked_root\"
     COMMAND cmake -E tar cf ../pong-channel-unpacked.zip -- code meta)")
 
+if(${found-makefst} STREQUAL found-makefst-NOTFOUND)
+    message(WARNING
+        "The makefst tool was not found on your system. The 'install' target "
+        "will not generate any installable FST/Woomy packages.")
+else()
+
+    install(CODE "file(MAKE_DIRECTORY
+        \"${CMAKE_BINARY_DIR}/wupinstaller_sd_root/install/pong-example\")")
+
+    install(CODE "execute_process(
+        WORKING_DIRECTORY \"${CMAKE_BINARY_DIR}\"
+        COMMAND makefst -rawout wupinstaller_sd_root/install/pong-example
+        -out pong-channel.woomy -icon unpacked_root/meta/iconTex.tga
+        -name \"Wii U Pong Game\" -internal pong-example unpacked_root)")
+
+    install(CODE "execute_process(
+        WORKING_DIRECTORY \"${CMAKE_BINARY_DIR}/wupinstaller_sd_root\"
+        COMMAND cmake -E tar cf ../pong-channel-wupinstaller.zip install)")
+endif()
+
 set(files_to_remove
     "${CMAKE_BINARY_DIR}/hbl_sd_root"
     "${CMAKE_BINARY_DIR}/loadiine_sd_root"
     "${CMAKE_BINARY_DIR}/unpacked_root"
+    "${CMAKE_BINARY_DIR}/wupinstaller_sd_root"
     "${CMAKE_BINARY_DIR}/pong.rpx"
     "${CMAKE_BINARY_DIR}/pong-hbl.zip"
-    "${CMAKE_BINARY_DIR}/pong-channel-unpacked.zip")
+    "${CMAKE_BINARY_DIR}/pong-channel-unpacked.zip"
+    "${CMAKE_BINARY_DIR}/pong-channel-wupinstaller.zip"
+    "${CMAKE_BINARY_DIR}/pong-channel.woomy")
 
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
     "${files_to_remove}")
