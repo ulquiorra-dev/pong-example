@@ -24,42 +24,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
-#include <proc_ui/procui.h>
-#include <whb/crash.h>
-#include <whb/log.h>
-#include <whb/log_udp.h>
-#include <whb/proc.h>
-
-#include "graphics.h"
-
-int main(int argc, char ** argv)
-{
-    WHBLogUdpInit();
-    WHBLogPrint("Pong is starting up...");
-
-    WHBLogPrint("Starting crash handler...");
-    WHBInitCrashHandler();
-
-    WHBLogPrint("Starting process management...");
-    WHBProcInit();
-
-    WHBLogPrint("Starting graphics system...");
-    pong_graphics_init();
-
-    WHBLogPrint("Starting main loop...");
-    while(WHBProcIsRunning())
-    {
-
-    }
-
-    WHBLogPrint("Shutting down graphics system...");
-    pong_graphics_shutdown();
-
-    WHBLogPrint("Shutting down process management...");
-    WHBProcShutdown();
-
-    WHBLogPrint("Pong is shutting down...");
-    WHBLogUdpDeinit();
-
-    return 0;
-}
+void pong_graphics_init();
+void pong_graphics_shutdown();
+void pong_graphics_clearscreen(uint8_t red, uint8_t green, uint8_t blue);
+void pong_graphics_render();

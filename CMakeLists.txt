@@ -7,6 +7,7 @@ find_program(found-wiiload wiiload)
 find_program(found-makefst makefst)
 
 add_executable(pong
+    src/graphics.c
     src/main.c)
 
 target_link_libraries(pong
