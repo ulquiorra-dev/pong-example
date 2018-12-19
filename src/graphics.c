@@ -142,7 +142,7 @@ void pong_graphics_clearscreen(uint8_t red, uint8_t green, uint8_t blue)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
 
-    uint32_t colour = (red << 24) | (green < 16) | (blue < 8);
+    uint32_t colour = (red << 24) | (green << 16) | (blue << 8);
 
     OSScreenClearBufferEx(SCREEN_TV, colour);
     OSScreenClearBufferEx(SCREEN_DRC, colour);

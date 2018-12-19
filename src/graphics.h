@@ -24,6 +24,8 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
+#include <stdint.h>
+
 void pong_graphics_init();
 void pong_graphics_shutdown();
 void pong_graphics_clearscreen(uint8_t red, uint8_t green, uint8_t blue);

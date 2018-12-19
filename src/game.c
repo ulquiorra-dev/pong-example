@@ -24,49 +24,41 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
-#include <proc_ui/procui.h>
-#include <whb/crash.h>
-#include <whb/log.h>
-#include <whb/log_udp.h>
-#include <whb/proc.h>
-
 #include "game.h"
 #include "graphics.h"
 
-int main(int argc, char ** argv)
+void pong_game_update_inputs()
 {
-    WHBLogUdpInit();
-    WHBLogPrint("[  main  ] Pong is starting up...");
 
-    WHBLogPrint("[  main  ] Starting crash handler...");
-    WHBInitCrashHandler();
+}
 
-    WHBLogPrint("[  main  ] Starting process management...");
-    WHBProcInit();
+void pong_game_update_player_one_location()
+{
 
-    WHBLogPrint("[  main  ] Starting graphics system...");
-    pong_graphics_init();
+}
 
-    WHBLogPrint("[  main  ] Starting main loop...");
-    while(WHBProcIsRunning())
-    {
-        pong_game_update_inputs();
-        pong_game_update_player_one_location();
-        pong_game_update_player_two_location();
-        pong_game_update_ball_location();
-        pong_game_check_ball_collision();
-        pong_game_check_ball_off_screen();
-        pong_game_draw();
-    }
+void pong_game_update_player_two_location()
+{
 
-    WHBLogPrint("[  main  ] Shutting down graphics system...");
-    pong_graphics_shutdown();
+}
 
-    WHBLogPrint("[  main  ] Shutting down process management...");
-    WHBProcShutdown();
+void pong_game_update_ball_location()
+{
 
-    WHBLogPrint("[  main  ] Pong is shutting down...");
-    WHBLogUdpDeinit();
+}
 
-    return 0;
+void pong_game_check_ball_collision()
+{
+
+}
+
+void pong_game_check_ball_off_screen()
+{
+
+}
+
+void pong_game_draw()
+{
+    pong_graphics_clearscreen(16, 32, 32);
+    pong_graphics_render();
 }
