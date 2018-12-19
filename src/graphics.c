@@ -56,30 +56,33 @@ uint32_t pong_graphics_initbuffers(void * context)
 {
     if(framebuffer_initialized) return 0;
 
-    WHBLogPrint("Initializing MEM1 memory heap...");
+    WHBLogPrint("[graphics] Acquiring foreground...");
+
+    WHBLogPrint("[graphics] Initializing MEM1 memory heap...");
     mem1_heap = MEMGetBaseHeapHandle(MEM_BASE_HEAP_MEM1);
     MEMRecordStateForFrmHeap(mem1_heap, 0x504F4E47);
 
-    WHBLogPrint("Initializing OSScreen...");
+    WHBLogPrint("[graphics] Initializing OSScreen...");
     OSScreenInit();
 
     tv_size = OSScreenGetBufferSizeEx(SCREEN_TV);
     gamepad_size = OSScreenGetBufferSizeEx(SCREEN_DRC);
 
-    WHBLogPrintf("Allocating %d bytes for TV framebuffer, %d bytes for "
-                 "GamePad framebuffer...", tv_size, gamepad_size);
+    WHBLogPrintf("[graphics] Allocating %d bytes for TV framebuffer, %d bytes "
+                 "for GamePad framebuffer...", tv_size, gamepad_size);
     tv_buffer = MEMAllocFromFrmHeapEx(mem1_heap, tv_size, 0x100);
     gamepad_buffer = MEMAllocFromFrmHeapEx(mem1_heap, gamepad_size, 0x100);
 
     if(!tv_buffer || !gamepad_buffer) {
-        WHBLogPrint("Failed to allocate a framebuffer in memory. You won't "
-                    "see anything while the program runs. :(");
+        WHBLogPrint("[graphics] Failed to allocate a framebuffer in memory. "
+                    "You won't see anything while the program runs. :(");
         MEMFreeByStateToFrmHeap(mem1_heap, 0x504F4E47);
         return -1;
     }
 
-    WHBLogPrintf("TV framebuffer is located at 0x%08X, GamePad framebuffer is "
-                 "located at 0x%08X.", tv_buffer, gamepad_buffer);
+    WHBLogPrintf("[graphics] TV framebuffer is located at 0x%08X, GamePad "
+                 "framebuffer is located at 0x%08X.", tv_buffer,
+                 gamepad_buffer);
 
     OSScreenSetBufferEx(SCREEN_TV, tv_buffer);
     OSScreenSetBufferEx(SCREEN_DRC, gamepad_buffer);
@@ -97,9 +100,11 @@ uint32_t pong_graphics_freebuffers(void * context)
 {
     if(!framebuffer_initialized) return 0;
 
+    WHBLogPrint("[graphics] Releasing foreground...");
+
     pong_graphics_clearbuffers();
 
-    WHBLogPrint("De-allocating framebuffers...");
+    WHBLogPrint("[graphics] De-allocating framebuffers...");
     MEMFreeByStateToFrmHeap(mem1_heap, 0x504F4E47);
 
     framebuffer_initialized = FALSE;
@@ -112,7 +117,7 @@ void pong_graphics_init()
 
     pong_graphics_initbuffers(NULL);
 
-    WHBLogPrint("Registering foreground acquire/release callbacks...");
+    WHBLogPrint("[graphics] Registering foreground callbacks...");
     ProcUIRegisterCallback(PROCUI_CALLBACK_ACQUIRE, pong_graphics_initbuffers,
                            NULL, 100);
     ProcUIRegisterCallback(PROCUI_CALLBACK_RELEASE, pong_graphics_freebuffers,
@@ -127,7 +132,7 @@ void pong_graphics_shutdown()
 
     pong_graphics_freebuffers(NULL);
 
-    WHBLogPrint("Clearing foreground acquire/release callbacks...");
+    WHBLogPrint("[graphics] Clearing foreground callbacks...");
     ProcUIClearCallbacks();
 
     graphics_initialized = FALSE;

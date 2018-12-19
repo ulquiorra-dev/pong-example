@@ -35,30 +35,30 @@
 int main(int argc, char ** argv)
 {
     WHBLogUdpInit();
-    WHBLogPrint("Pong is starting up...");
+    WHBLogPrint("[  main  ] Pong is starting up...");
 
-    WHBLogPrint("Starting crash handler...");
+    WHBLogPrint("[  main  ] Starting crash handler...");
     WHBInitCrashHandler();
 
-    WHBLogPrint("Starting process management...");
+    WHBLogPrint("[  main  ] Starting process management...");
     WHBProcInit();
 
-    WHBLogPrint("Starting graphics system...");
+    WHBLogPrint("[  main  ] Starting graphics system...");
     pong_graphics_init();
 
-    WHBLogPrint("Starting main loop...");
+    WHBLogPrint("[  main  ] Starting main loop...");
     while(WHBProcIsRunning())
     {
 
     }
 
-    WHBLogPrint("Shutting down graphics system...");
+    WHBLogPrint("[  main  ] Shutting down graphics system...");
     pong_graphics_shutdown();
 
-    WHBLogPrint("Shutting down process management...");
+    WHBLogPrint("[  main  ] Shutting down process management...");
     WHBProcShutdown();
 
-    WHBLogPrint("Pong is shutting down...");
+    WHBLogPrint("[  main  ] Pong is shutting down...");
     WHBLogUdpDeinit();
 
     return 0;
