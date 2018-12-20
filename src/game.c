@@ -24,12 +24,25 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
+#include <vpad/input.h>
+#include <whb/log.h>
+
 #include "game.h"
 #include "graphics.h"
 
+VPADStatus gamepad_status;
+VPADReadError gamepad_communication_error;
+
+BOOL pong_game_running = FALSE;
+
 void pong_game_update_inputs()
 {
+    VPADRead(VPAD_CHAN_0, &gamepad_status, 1, &gamepad_communication_error);
 
+    if(!pong_game_running && (gamepad_status.trigger & VPAD_BUTTON_A)) {
+        WHBLogPrint("[  game  ] Pong game is starting...");
+        pong_game_running = TRUE;
+    }
 }
 
 void pong_game_update_player_one_location()
@@ -54,7 +67,7 @@ void pong_game_check_ball_collision()
 
 void pong_game_check_ball_off_screen()
 {
-
+    pong_game_running = FALSE;
 }
 
 void pong_game_draw()

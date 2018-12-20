@@ -16,7 +16,8 @@ target_link_libraries(pong
     coreinit
     nsysnet
     proc_ui
-    sysapp)
+    sysapp
+    vpad)
 
 wut_create_rpx(pong.rpx pong)
 
