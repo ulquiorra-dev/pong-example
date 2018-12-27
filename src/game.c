@@ -92,5 +92,6 @@ void pong_game_draw_scores()
 
 void pong_game_draw_messages()
 {
-
+    pong_graphics_draw_text("Wii U Pong Game", 15);
+    pong_graphics_draw_text("Press A to start", 16);
 }

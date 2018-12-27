@@ -28,6 +28,7 @@
 #include <coreinit/memfrmheap.h>
 #include <coreinit/screen.h>
 #include <proc_ui/procui.h>
+#include <string.h>
 #include <whb/log.h>
 
 #include "graphics.h"
@@ -154,4 +155,14 @@ void pong_graphics_render()
 
     OSScreenFlipBuffersEx(SCREEN_TV);
     OSScreenFlipBuffersEx(SCREEN_DRC);
+}
+
+void pong_graphics_draw_text(const char * string, int32_t line)
+{
+    if(!graphics_initialized || !framebuffer_initialized) return;
+
+    int x = ((70 - strlen(string)) / 2) - 4;
+
+    //TODO: Draw to TV screen
+    OSScreenPutFontEx(SCREEN_DRC, x, line, string);
 }
