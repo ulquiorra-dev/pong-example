@@ -47,6 +47,9 @@ int main(int argc, char ** argv)
     WHBLogPrint("[  main  ] Starting graphics system...");
     pong_graphics_init();
 
+    WHBLogPrint("[  main  ] Initializing pong game...");
+    pong_game_init();
+
     WHBLogPrint("[  main  ] Starting main loop...");
     while(WHBProcIsRunning())
     {

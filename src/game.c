@@ -33,15 +33,22 @@
 VPADStatus gamepad_status;
 VPADReadError gamepad_communication_error;
 
-BOOL pong_game_halted = TRUE;
+BOOL game_halted;
+char * screen_message;
+
+void pong_game_init()
+{
+    screen_message = "Wii U Pong Game";
+    game_halted = TRUE;
+}
 
 void pong_game_update_inputs()
 {
     VPADRead(VPAD_CHAN_0, &gamepad_status, 1, &gamepad_communication_error);
 
-    if(pong_game_halted && (gamepad_status.trigger & VPAD_BUTTON_A)) {
-        WHBLogPrint("[  game  ] Pong game is starting...");
-        pong_game_halted = FALSE;
+    if(game_halted && (gamepad_status.trigger & VPAD_BUTTON_A)) {
+        WHBLogPrint("[  game  ] New Pong round is starting...");
+        game_halted = FALSE;
     }
 }
 
@@ -67,7 +74,7 @@ void pong_game_check_ball_collision()
 
 void pong_game_check_ball_off_screen()
 {
-    pong_game_halted = TRUE;
+
 }
 
 void pong_game_draw_player_one_paddle()
@@ -92,6 +99,8 @@ void pong_game_draw_scores()
 
 void pong_game_draw_messages()
 {
-    pong_graphics_draw_text("Wii U Pong Game", 15);
-    pong_graphics_draw_text("Press A to start", 16);
+    if(game_halted) {
+        pong_graphics_draw_text(screen_message, 15);
+        pong_graphics_draw_text("Press A to start", 16);
+    }
 }

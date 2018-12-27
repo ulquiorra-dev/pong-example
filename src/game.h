@@ -24,6 +24,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
+void pong_game_init();
 void pong_game_update_inputs();
 void pong_game_update_player_one_location();
 void pong_game_update_player_two_location();
