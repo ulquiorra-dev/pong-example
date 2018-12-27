@@ -76,12 +76,26 @@ void pong_game_update_inputs()
 
 void pong_game_update_player_one_location()
 {
-    player_one_paddle_position = 240;
+    if(!game_halted && gamepad_communication_error == VPAD_READ_SUCCESS) {
+        if(gamepad_status.hold & VPAD_BUTTON_UP) {
+            player_one_paddle_position -= 10;
+        } else if(gamepad_status.hold & VPAD_BUTTON_DOWN) {
+            player_one_paddle_position += 10;
+        }
+    }
+    //player_one_paddle_position = 240;
 }
 
 void pong_game_update_player_two_location()
 {
-    player_two_paddle_position = 240;
+    if(!game_halted && gamepad_communication_error == VPAD_READ_SUCCESS) {
+        if(gamepad_status.hold & VPAD_BUTTON_X) {
+            player_two_paddle_position -= 10;
+        } else if(gamepad_status.hold & VPAD_BUTTON_B) {
+            player_two_paddle_position += 10;
+        }
+    }
+    //player_two_paddle_position = 240;
 }
 
 void pong_game_update_ball_location()
