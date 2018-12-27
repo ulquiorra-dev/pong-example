@@ -157,6 +157,28 @@ void pong_graphics_render()
     OSScreenFlipBuffersEx(SCREEN_DRC);
 }
 
+void pong_graphics_draw_pixel(uint32_t x, uint32_t y, uint8_t red,
+                              uint8_t green, uint8_t blue)
+{
+    if(!graphics_initialized || !framebuffer_initialized) return;
+
+    uint32_t colour = (red << 24) | (green << 16) | (blue << 8);
+
+    OSScreenPutPixelEx(SCREEN_DRC, x, y, colour);
+}
+
+void pong_graphics_draw_rectangle(int x, int y, int width, int height,
+                                  uint8_t red, uint8_t green, uint8_t blue)
+{
+    if(!graphics_initialized || !framebuffer_initialized) return;
+
+    for(int i = (x - (width / 2)); i < (x + (width / 2)); i++) {
+        for(int j = (y - (height / 2)); j < (y + (height / 2)); j++) {
+            pong_graphics_draw_pixel(i, j, red, green, blue);
+        }
+    }
+}
+
 void pong_graphics_draw_text(const char * string, int32_t x, int32_t y)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;

@@ -42,6 +42,11 @@ int player_two_score;
 char player_one_score_string[4];
 char player_two_score_string[4];
 
+int ball_position_x;
+int ball_position_y;
+int ball_movement_x;
+int ball_movement_y;
+
 void pong_game_init()
 {
     screen_message = "Wii U Pong Game";
@@ -88,7 +93,8 @@ void pong_game_check_ball_collision()
 
 void pong_game_check_ball_off_screen()
 {
-
+    ball_position_x = 427;
+    ball_position_y = 240;
 }
 
 void pong_game_draw_player_one_paddle()
@@ -103,7 +109,8 @@ void pong_game_draw_player_two_paddle()
 
 void pong_game_draw_ball()
 {
-
+    pong_graphics_draw_rectangle(ball_position_x, ball_position_y, 15, 15,
+                                 255, 128, 128);
 }
 
 void pong_game_draw_scores()
