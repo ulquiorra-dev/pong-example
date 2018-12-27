@@ -157,12 +157,18 @@ void pong_graphics_render()
     OSScreenFlipBuffersEx(SCREEN_DRC);
 }
 
-void pong_graphics_draw_text(const char * string, int32_t line)
+void pong_graphics_draw_text(const char * string, int32_t x, int32_t y)
+{
+    if(!graphics_initialized || !framebuffer_initialized) return;
+
+    //TODO: Draw to TV screen
+    OSScreenPutFontEx(SCREEN_DRC, x, y, string);
+}
+
+void pong_graphics_draw_text_centre(const char * string, int32_t line)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
 
     int x = ((70 - strlen(string)) / 2) - 4;
-
-    //TODO: Draw to TV screen
-    OSScreenPutFontEx(SCREEN_DRC, x, line, string);
+    pong_graphics_draw_text(string, x, line);
 }

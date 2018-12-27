@@ -30,4 +30,5 @@ void pong_graphics_init();
 void pong_graphics_shutdown();
 void pong_graphics_clearscreen(uint8_t red, uint8_t green, uint8_t blue);
 void pong_graphics_render();
-void pong_graphics_draw_text(const char * string, int32_t line);
+void pong_graphics_draw_text(const char * string, int32_t x, int32_t y);
+void pong_graphics_draw_text_centre(const char * string, int32_t line);

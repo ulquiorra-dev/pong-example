@@ -100,7 +100,7 @@ void pong_game_draw_scores()
 void pong_game_draw_messages()
 {
     if(game_halted) {
-        pong_graphics_draw_text(screen_message, 15);
-        pong_graphics_draw_text("Press A to start", 16);
+        pong_graphics_draw_text_centre(screen_message, 15);
+        pong_graphics_draw_text_centre("Press A to start", 16);
     }
 }
