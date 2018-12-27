@@ -52,9 +52,17 @@ void pong_game_update_inputs()
 {
     VPADRead(VPAD_CHAN_0, &gamepad_status, 1, &gamepad_communication_error);
 
-    if(game_halted && (gamepad_status.trigger & VPAD_BUTTON_A)) {
-        WHBLogPrint("[  game  ] New Pong round is starting...");
-        game_halted = FALSE;
+    if(gamepad_communication_error == VPAD_READ_SUCCESS) {
+        if(gamepad_status.trigger & VPAD_BUTTON_PLUS) {
+            if(game_halted) {
+                WHBLogPrint("[  game  ] Game is now starting...");
+                game_halted = FALSE;
+            } else {
+                WHBLogPrint("[  game  ] Game is pausing...");
+                screen_message = "Game is paused";
+                game_halted = TRUE;
+            }
+        }
     }
 }
 
@@ -110,6 +118,6 @@ void pong_game_draw_messages()
 {
     if(game_halted) {
         pong_graphics_draw_text_centre(screen_message, 15);
-        pong_graphics_draw_text_centre("Press A to start", 16);
+        pong_graphics_draw_text_centre("Press + to start", 16);
     }
 }
