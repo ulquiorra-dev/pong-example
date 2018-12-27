@@ -33,15 +33,15 @@
 VPADStatus gamepad_status;
 VPADReadError gamepad_communication_error;
 
-BOOL pong_game_running = FALSE;
+BOOL pong_game_halted = TRUE;
 
 void pong_game_update_inputs()
 {
     VPADRead(VPAD_CHAN_0, &gamepad_status, 1, &gamepad_communication_error);
 
-    if(!pong_game_running && (gamepad_status.trigger & VPAD_BUTTON_A)) {
+    if(pong_game_halted && (gamepad_status.trigger & VPAD_BUTTON_A)) {
         WHBLogPrint("[  game  ] Pong game is starting...");
-        pong_game_running = TRUE;
+        pong_game_halted = FALSE;
     }
 }
 
@@ -67,11 +67,30 @@ void pong_game_check_ball_collision()
 
 void pong_game_check_ball_off_screen()
 {
-    pong_game_running = FALSE;
+    pong_game_halted = TRUE;
 }
 
-void pong_game_draw()
+void pong_game_draw_player_one_paddle()
 {
-    pong_graphics_clearscreen(16, 32, 32);
-    pong_graphics_render();
+
+}
+
+void pong_game_draw_player_two_paddle()
+{
+
+}
+
+void pong_game_draw_ball()
+{
+
+}
+
+void pong_game_draw_scores()
+{
+
+}
+
+void pong_game_draw_messages()
+{
+
 }
