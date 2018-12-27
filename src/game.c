@@ -24,6 +24,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
+#include <stdio.h>
 #include <vpad/input.h>
 #include <whb/log.h>
 
@@ -35,6 +36,11 @@ VPADReadError gamepad_communication_error;
 
 BOOL game_halted;
 char * screen_message;
+
+int player_one_score;
+int player_two_score;
+char player_one_score_string[4];
+char player_two_score_string[4];
 
 void pong_game_init()
 {
@@ -94,7 +100,10 @@ void pong_game_draw_ball()
 
 void pong_game_draw_scores()
 {
-
+    snprintf(player_one_score_string, 4, "%03d", player_one_score);
+    snprintf(player_two_score_string, 4, "%03d", player_two_score);
+    pong_graphics_draw_text(player_one_score_string, 8, 0);
+    pong_graphics_draw_text(player_two_score_string, 50, 0);
 }
 
 void pong_game_draw_messages()
