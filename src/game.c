@@ -93,8 +93,14 @@ void pong_game_update_player_one_location()
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_UP) {
             player_one_paddle_position -= 10;
+            if(player_one_paddle_position < 0) {
+                player_one_paddle_position = 0;
+            }
         } else if(gamepad_status.hold & VPAD_BUTTON_DOWN) {
             player_one_paddle_position += 10;
+            if(player_one_paddle_position > 480) {
+                player_one_paddle_position = 480;
+            }
         }
     }
 }
@@ -110,8 +116,14 @@ void pong_game_update_player_two_location()
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_X) {
             player_two_paddle_position -= 10;
+            if(player_two_paddle_position < 0) {
+                player_two_paddle_position = 0;
+            }
         } else if(gamepad_status.hold & VPAD_BUTTON_B) {
             player_two_paddle_position += 10;
+            if(player_two_paddle_position > 480) {
+                player_two_paddle_position = 480;
+            }
         }
     }
 }
