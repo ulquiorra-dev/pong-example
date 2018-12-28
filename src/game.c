@@ -34,6 +34,7 @@
 VPADStatus gamepad_status;
 VPADReadError gamepad_communication_error;
 
+BOOL game_should_reset;
 BOOL game_halted;
 char * screen_message;
 
@@ -54,6 +55,11 @@ void pong_game_init()
 {
     screen_message = "Wii U Pong Game";
     game_halted = TRUE;
+    game_should_reset = FALSE;
+    player_one_paddle_position = 240;
+    player_two_paddle_position = 240;
+    ball_position_x = 427;
+    ball_position_y = 240;
 }
 
 void pong_game_update_inputs()
@@ -63,8 +69,10 @@ void pong_game_update_inputs()
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.trigger & VPAD_BUTTON_PLUS) {
             if(game_halted) {
-                WHBLogPrint("[  game  ] Game is now starting...");
                 game_halted = FALSE;
+                if(!game_should_reset) {
+                    WHBLogPrint("[  game  ] Game is now starting...");
+                }
             } else {
                 WHBLogPrint("[  game  ] Game is pausing...");
                 screen_message = "Game is paused";
@@ -76,31 +84,48 @@ void pong_game_update_inputs()
 
 void pong_game_update_player_one_location()
 {
-    if(!game_halted && gamepad_communication_error == VPAD_READ_SUCCESS) {
+    if(game_halted) return;
+    if(game_should_reset) {
+        player_one_paddle_position = 240;
+        return;
+    }
+
+    if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_UP) {
             player_one_paddle_position -= 10;
         } else if(gamepad_status.hold & VPAD_BUTTON_DOWN) {
             player_one_paddle_position += 10;
         }
     }
-    //player_one_paddle_position = 240;
 }
 
 void pong_game_update_player_two_location()
 {
-    if(!game_halted && gamepad_communication_error == VPAD_READ_SUCCESS) {
+    if(game_halted) return;
+    if(game_should_reset) {
+        player_two_paddle_position = 240;
+        return;
+    }
+
+    if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_X) {
             player_two_paddle_position -= 10;
         } else if(gamepad_status.hold & VPAD_BUTTON_B) {
             player_two_paddle_position += 10;
         }
     }
-    //player_two_paddle_position = 240;
 }
 
 void pong_game_update_ball_location()
 {
+    if(game_halted) return;
+    if(game_should_reset) {
+        ball_position_x = 427;
+        ball_position_y = 240;
+        return;
+    }
 
+    ball_position_x -= 5;
 }
 
 void pong_game_check_ball_collision()
@@ -110,8 +135,20 @@ void pong_game_check_ball_collision()
 
 void pong_game_check_ball_off_screen()
 {
-    ball_position_x = 427;
-    ball_position_y = 240;
+    if(game_halted) return;
+    if(game_should_reset) {
+        game_should_reset = FALSE;
+        game_halted = TRUE;
+        screen_message = "New game is ready";
+        WHBLogPrint("[  game  ] New pong game is ready");
+    }
+
+    if(ball_position_x < -10 || ball_position_x > 864) {
+        game_should_reset = TRUE;
+        game_halted = TRUE;
+        screen_message = "Insert winner message here";
+        WHBLogPrint("[  game  ] Game ended because ball is off screen");
+    }
 }
 
 void pong_game_draw_player_one_paddle()
