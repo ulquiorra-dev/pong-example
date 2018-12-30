@@ -24,12 +24,17 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
+#include <coreinit/time.h>
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <vpad/input.h>
 #include <whb/log.h>
 
 #include "game.h"
 #include "graphics.h"
+
+#define PI (22.0 / 7.0)
 
 VPADStatus gamepad_status;
 VPADReadError gamepad_communication_error;
@@ -51,8 +56,24 @@ int ball_movement_y;
 int player_one_paddle_position;
 int player_two_paddle_position;
 
+void pong_game_generate_ball_direction()
+{
+    //double direction = fmod((rand() / 1000000.0), (PI * 2));
+    //int degrees = direction * (180 / PI);
+    int degrees = rand() % 360;
+    double radians = degrees * (PI / 180);
+    WHBLogPrintf("[  game  ] Initial ball direction: %d degrees (%f radians)",
+                 degrees, radians);
+    ball_movement_x = cos(radians) * 7.5;
+    ball_movement_y = sin(radians) * 7.5;
+    WHBLogPrintf("[  game  ] Initial ball x/y movement: %d/%d pixels/frame",
+                 ball_movement_x, ball_movement_y);
+}
+
 void pong_game_init()
 {
+    srand(OSGetTime());
+
     screen_message = "Wii U Pong Game";
     game_halted = TRUE;
     game_should_reset = FALSE;
@@ -60,6 +81,7 @@ void pong_game_init()
     player_two_paddle_position = 240;
     ball_position_x = 427;
     ball_position_y = 240;
+    pong_game_generate_ball_direction();
 }
 
 void pong_game_update_inputs()
@@ -134,10 +156,12 @@ void pong_game_update_ball_location()
     if(game_should_reset) {
         ball_position_x = 427;
         ball_position_y = 240;
+        pong_game_generate_ball_direction();
         return;
     }
 
-    ball_position_x -= 5;
+    ball_position_x += ball_movement_x;
+    ball_position_y += ball_movement_y;
 }
 
 void pong_game_check_ball_collision()
