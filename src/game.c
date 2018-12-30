@@ -58,14 +58,18 @@ int player_two_paddle_position;
 
 void pong_game_generate_ball_direction()
 {
-    //double direction = fmod((rand() / 1000000.0), (PI * 2));
-    //int degrees = direction * (180 / PI);
     int degrees = rand() % 360;
     double radians = degrees * (PI / 180);
-    WHBLogPrintf("[  game  ] Initial ball direction: %d degrees (%f radians)",
-                 degrees, radians);
     ball_movement_x = cos(radians) * 7.5;
     ball_movement_y = sin(radians) * 7.5;
+
+    if(ball_movement_x == 0 || ball_movement_y == 0) {
+        pong_game_generate_ball_direction();
+        return;
+    }
+
+    WHBLogPrintf("[  game  ] Initial ball direction: %d degrees (%f radians)",
+                 degrees, radians);
     WHBLogPrintf("[  game  ] Initial ball x/y movement: %d/%d pixels/frame",
                  ball_movement_x, ball_movement_y);
 }
