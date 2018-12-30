@@ -183,11 +183,20 @@ void pong_game_check_ball_off_screen()
         WHBLogPrint("[  game  ] New pong game is ready");
     }
 
-    if(ball_position_x < -10 || ball_position_x > 864) {
+    if(ball_position_x < -10) {
         game_should_reset = TRUE;
         game_halted = TRUE;
-        screen_message = "Insert winner message here";
-        WHBLogPrint("[  game  ] Game ended because ball is off screen");
+        screen_message = "Player 2 wins!";
+        WHBLogPrint("[  game  ] Player 2 won the game");
+        player_two_score++;
+    }
+
+    if(ball_position_x > 864) {
+        game_should_reset = TRUE;
+        game_halted = TRUE;
+        screen_message = "Player 1 wins!";
+        WHBLogPrint("[  game  ] Player 1 won the game");
+        player_one_score++;
     }
 }
 
