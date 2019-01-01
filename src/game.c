@@ -59,6 +59,8 @@
 #define PADDLE_INITIAL_Y_POSITION 240
 #define PADDLE_WIDTH              20
 #define PADDLE_HEIGHT             100
+#define PADDLE_HIGHEST_POSITION   (SCREEN_TOP_BOUNDARY + (PADDLE_HEIGHT / 2))
+#define PADDLE_LOWEST_POSITION    (SCREEN_BOTTOM_BOUNDARY - (PADDLE_HEIGHT / 2))
 
 #define PADDLE_ONE_COLOUR         0x7FFF7F00
 #define PADDLE_TWO_COLOUR         0x7F7FFF00
@@ -161,13 +163,13 @@ void pong_game_update_player_one_location()
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_UP) {
             player_one_paddle_position -= PADDLE_SPEED;
-            if(player_one_paddle_position < SCREEN_TOP_BOUNDARY) {
-                player_one_paddle_position = SCREEN_TOP_BOUNDARY;
+            if(player_one_paddle_position < PADDLE_HIGHEST_POSITION) {
+                player_one_paddle_position = PADDLE_HIGHEST_POSITION;
             }
         } else if(gamepad_status.hold & VPAD_BUTTON_DOWN) {
             player_one_paddle_position += PADDLE_SPEED;
-            if(player_one_paddle_position > SCREEN_BOTTOM_BOUNDARY) {
-                player_one_paddle_position = SCREEN_BOTTOM_BOUNDARY;
+            if(player_one_paddle_position > PADDLE_LOWEST_POSITION) {
+                player_one_paddle_position = PADDLE_LOWEST_POSITION;
             }
         }
     }
@@ -184,13 +186,13 @@ void pong_game_update_player_two_location()
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_X) {
             player_two_paddle_position -= PADDLE_SPEED;
-            if(player_two_paddle_position < SCREEN_TOP_BOUNDARY) {
-                player_two_paddle_position = SCREEN_TOP_BOUNDARY;
+            if(player_two_paddle_position < PADDLE_HIGHEST_POSITION) {
+                player_two_paddle_position = PADDLE_HIGHEST_POSITION;
             }
         } else if(gamepad_status.hold & VPAD_BUTTON_B) {
             player_two_paddle_position += PADDLE_SPEED;
-            if(player_two_paddle_position > SCREEN_BOTTOM_BOUNDARY) {
-                player_two_paddle_position = SCREEN_BOTTOM_BOUNDARY;
+            if(player_two_paddle_position > PADDLE_LOWEST_POSITION) {
+                player_two_paddle_position = PADDLE_LOWEST_POSITION;
             }
         }
     }
