@@ -36,6 +36,35 @@
 
 #define PI (22.0 / 7.0)
 
+#define SCREEN_LEFT_BOUNDARY      0
+#define SCREEN_RIGHT_BOUNDARY     854
+#define SCREEN_TOP_BOUNDARY       0
+#define SCREEN_BOTTOM_BOUNDARY    480
+
+#define PADDLE_SPEED              10
+#define BALL_SPEED                7.5
+
+#define PADDLE_X_POSITION         50
+#define PADDLE_INITIAL_Y_POSITION 240
+#define PADDLE_WIDTH              20
+#define PADDLE_HEIGHT             100
+
+#define PADDLE_ONE_RED            128
+#define PADDLE_ONE_GREEN          255
+#define PADDLE_ONE_BLUE           128
+
+#define PADDLE_TWO_RED            128
+#define PADDLE_TWO_GREEN          128
+#define PADDLE_TWO_BLUE           255
+
+#define BALL_INITIAL_X_POSITION   (SCREEN_RIGHT_BOUNDARY / 2)
+#define BALL_INITIAL_Y_POSITION   (SCREEN_BOTTOM_BOUNDARY / 2)
+#define BALL_RADIUS               15
+
+#define BALL_RED                  255
+#define BALL_GREEN                128
+#define BALL_BLUE                 128
+
 VPADStatus gamepad_status;
 VPADReadError gamepad_communication_error;
 
@@ -78,8 +107,8 @@ void pong_game_generate_ball_direction()
     WHBLogPrintf("[  game  ] Initial ball direction: %d degrees (%f radians)",
                  degrees, radians);
 
-    ball_movement_x = cos(radians) * 7.5;
-    ball_movement_y = sin(radians) * 7.5;
+    ball_movement_x = cos(radians) * BALL_SPEED;
+    ball_movement_y = sin(radians) * BALL_SPEED;
     WHBLogPrintf("[  game  ] Initial ball x/y movement: %d/%d pixels/frame",
                  ball_movement_x, ball_movement_y);
 }
@@ -91,10 +120,10 @@ void pong_game_init()
     screen_message = "Wii U Pong Game";
     game_halted = TRUE;
     game_should_reset = FALSE;
-    player_one_paddle_position = 240;
-    player_two_paddle_position = 240;
-    ball_position_x = 427;
-    ball_position_y = 240;
+    player_one_paddle_position = PADDLE_INITIAL_Y_POSITION;
+    player_two_paddle_position = PADDLE_INITIAL_Y_POSITION;
+    ball_position_x = BALL_INITIAL_X_POSITION;
+    ball_position_y = BALL_INITIAL_Y_POSITION;
     pong_game_generate_ball_direction();
 }
 
@@ -122,20 +151,20 @@ void pong_game_update_player_one_location()
 {
     if(game_halted) return;
     if(game_should_reset) {
-        player_one_paddle_position = 240;
+        player_one_paddle_position = PADDLE_INITIAL_Y_POSITION;
         return;
     }
 
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_UP) {
-            player_one_paddle_position -= 10;
-            if(player_one_paddle_position < 0) {
-                player_one_paddle_position = 0;
+            player_one_paddle_position -= PADDLE_SPEED;
+            if(player_one_paddle_position < SCREEN_TOP_BOUNDARY) {
+                player_one_paddle_position = SCREEN_TOP_BOUNDARY;
             }
         } else if(gamepad_status.hold & VPAD_BUTTON_DOWN) {
-            player_one_paddle_position += 10;
-            if(player_one_paddle_position > 480) {
-                player_one_paddle_position = 480;
+            player_one_paddle_position += PADDLE_SPEED;
+            if(player_one_paddle_position > SCREEN_BOTTOM_BOUNDARY) {
+                player_one_paddle_position = SCREEN_BOTTOM_BOUNDARY;
             }
         }
     }
@@ -145,20 +174,20 @@ void pong_game_update_player_two_location()
 {
     if(game_halted) return;
     if(game_should_reset) {
-        player_two_paddle_position = 240;
+        player_two_paddle_position = PADDLE_INITIAL_Y_POSITION;
         return;
     }
 
     if(gamepad_communication_error == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_X) {
-            player_two_paddle_position -= 10;
-            if(player_two_paddle_position < 0) {
-                player_two_paddle_position = 0;
+            player_two_paddle_position -= PADDLE_SPEED;
+            if(player_two_paddle_position < SCREEN_TOP_BOUNDARY) {
+                player_two_paddle_position = SCREEN_TOP_BOUNDARY;
             }
         } else if(gamepad_status.hold & VPAD_BUTTON_B) {
-            player_two_paddle_position += 10;
-            if(player_two_paddle_position > 480) {
-                player_two_paddle_position = 480;
+            player_two_paddle_position += PADDLE_SPEED;
+            if(player_two_paddle_position > SCREEN_BOTTOM_BOUNDARY) {
+                player_two_paddle_position = SCREEN_BOTTOM_BOUNDARY;
             }
         }
     }
@@ -168,8 +197,8 @@ void pong_game_update_ball_location()
 {
     if(game_halted) return;
     if(game_should_reset) {
-        ball_position_x = 427;
-        ball_position_y = 240;
+        ball_position_x = BALL_INITIAL_X_POSITION;
+        ball_position_y = BALL_INITIAL_Y_POSITION;
         pong_game_generate_ball_direction();
         return;
     }
@@ -193,7 +222,7 @@ void pong_game_check_ball_off_screen()
         WHBLogPrint("[  game  ] New pong game is ready");
     }
 
-    if(ball_position_x < -10) {
+    if(ball_position_x < (SCREEN_LEFT_BOUNDARY - 10)) {
         game_should_reset = TRUE;
         game_halted = TRUE;
         screen_message = "Player 2 wins!";
@@ -201,7 +230,7 @@ void pong_game_check_ball_off_screen()
         player_two_score++;
     }
 
-    if(ball_position_x > 864) {
+    if(ball_position_x > (SCREEN_RIGHT_BOUNDARY + 10)) {
         game_should_reset = TRUE;
         game_halted = TRUE;
         screen_message = "Player 1 wins!";
@@ -212,20 +241,25 @@ void pong_game_check_ball_off_screen()
 
 void pong_game_draw_player_one_paddle()
 {
-    pong_graphics_draw_rectangle(50, player_one_paddle_position, 20, 100,
-                                 128, 255, 128);
+    pong_graphics_draw_rectangle(SCREEN_LEFT_BOUNDARY + PADDLE_X_POSITION,
+                                 player_one_paddle_position,
+                                 PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_ONE_RED,
+                                 PADDLE_ONE_GREEN, PADDLE_ONE_BLUE);
 }
 
 void pong_game_draw_player_two_paddle()
 {
-    pong_graphics_draw_rectangle(804, player_two_paddle_position, 20, 100,
-                                 128, 128, 255);
+    pong_graphics_draw_rectangle(SCREEN_RIGHT_BOUNDARY - PADDLE_X_POSITION,
+                                 player_two_paddle_position,
+                                 PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_TWO_RED,
+                                 PADDLE_TWO_GREEN, PADDLE_TWO_BLUE);
 }
 
 void pong_game_draw_ball()
 {
-    pong_graphics_draw_rectangle(ball_position_x, ball_position_y, 15, 15,
-                                 255, 128, 128);
+    pong_graphics_draw_rectangle(ball_position_x, ball_position_y,
+                                 BALL_RADIUS, BALL_RADIUS, BALL_RED,
+                                 BALL_GREEN, BALL_BLUE);
 }
 
 void pong_game_draw_scores()
