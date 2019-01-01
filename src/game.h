@@ -1,14 +1,15 @@
 /*******************************************************************************
  * Basic Wii U Pong Game
- * This is a version of the long-existing Wii U Pong example project, with a
- * greatly simplified codebase and build system that is both friendlier to
- * beginners and more future-proof in terms of running the software.
+ * This is a re-write of the long-existing Wii U Pong example project, with a
+ * greatly simplified codebase that should be easier for less-experienced
+ * programmers to understand, and a revised build system that allows building
+ * the program using the latest Wii U tools.
  *
  * Copyright (C) 2015-2016  Relys, crowell, Hykem, Marionumber1, FIX94,
  *                          TheJosamilu, gudenau
  * Copyright (C) 2016       dimok
  * Copyright (C) 2016-2017  Shiny Quagsire, dibas, exjam, CreeperMario
- * Copyright (C) 2018       CreeperMario
+ * Copyright (C) 2018-2019  CreeperMario
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
