@@ -65,7 +65,7 @@
 
 #define BALL_INITIAL_X_POSITION   (SCREEN_RIGHT_BOUNDARY / 2)
 #define BALL_INITIAL_Y_POSITION   (SCREEN_BOTTOM_BOUNDARY / 2)
-#define BALL_RADIUS               15
+#define BALL_CIRCUMFERENCE        15
 #define BALL_COLOUR               0xFF7F7F00
 
 VPADStatus gamepad_status;
@@ -212,8 +212,8 @@ void pong_game_update_ball_location()
 
 void pong_game_check_ball_collision()
 {
-    if(ball_position_y < (SCREEN_TOP_BOUNDARY + (BALL_RADIUS / 2)) ||
-       ball_position_y > (SCREEN_BOTTOM_BOUNDARY - (BALL_RADIUS / 2)))
+    if(ball_position_y < (SCREEN_TOP_BOUNDARY + (BALL_CIRCUMFERENCE / 2)) ||
+       ball_position_y > (SCREEN_BOTTOM_BOUNDARY - (BALL_CIRCUMFERENCE / 2)))
     {
         ball_movement_y = -ball_movement_y;
         WHBLogPrint("[  game  ] Boing");
@@ -264,7 +264,7 @@ void pong_game_draw_player_two_paddle()
 void pong_game_draw_ball()
 {
     pong_graphics_draw_rectangle(ball_position_x, ball_position_y,
-                                 BALL_RADIUS, BALL_RADIUS, BALL_COLOUR);
+                                 BALL_CIRCUMFERENCE, BALL_CIRCUMFERENCE, BALL_COLOUR);
 }
 
 void pong_game_draw_scores()
