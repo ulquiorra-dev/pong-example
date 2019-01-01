@@ -212,7 +212,12 @@ void pong_game_update_ball_location()
 
 void pong_game_check_ball_collision()
 {
-
+    if(ball_position_y < (SCREEN_TOP_BOUNDARY + (BALL_RADIUS / 2)) ||
+       ball_position_y > (SCREEN_BOTTOM_BOUNDARY - (BALL_RADIUS / 2)))
+    {
+        ball_movement_y = -ball_movement_y;
+        WHBLogPrint("[  game  ] Boing");
+    }
 }
 
 void pong_game_check_ball_off_screen()
