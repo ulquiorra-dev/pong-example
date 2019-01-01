@@ -249,6 +249,12 @@ void pong_game_check_ball_off_screen()
     }
 }
 
+void pong_game_draw_ball()
+{
+    pong_graphics_draw_rectangle(ball_position_x, ball_position_y,
+                                 BALL_CIRCUMFERENCE, BALL_CIRCUMFERENCE, BALL_COLOUR);
+}
+
 void pong_game_draw_player_one_paddle()
 {
     pong_graphics_draw_rectangle(SCREEN_LEFT_BOUNDARY + PADDLE_X_POSITION,
@@ -261,12 +267,6 @@ void pong_game_draw_player_two_paddle()
     pong_graphics_draw_rectangle(SCREEN_RIGHT_BOUNDARY - PADDLE_X_POSITION,
                                  player_two_paddle_position, PADDLE_WIDTH,
                                  PADDLE_HEIGHT, PADDLE_TWO_COLOUR);
-}
-
-void pong_game_draw_ball()
-{
-    pong_graphics_draw_rectangle(ball_position_x, ball_position_y,
-                                 BALL_CIRCUMFERENCE, BALL_CIRCUMFERENCE, BALL_COLOUR);
 }
 
 void pong_game_draw_scores()

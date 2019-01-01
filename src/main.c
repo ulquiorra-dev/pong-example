@@ -63,9 +63,9 @@ int main(int argc, char ** argv)
         pong_game_check_ball_off_screen();
 
         pong_graphics_clearscreen(BACKGROUND_COLOUR);
+        pong_game_draw_ball();
         pong_game_draw_player_one_paddle();
         pong_game_draw_player_two_paddle();
-        pong_game_draw_ball();
         pong_game_draw_scores();
         pong_game_draw_messages();
         pong_graphics_render();
