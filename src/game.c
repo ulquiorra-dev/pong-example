@@ -41,6 +41,17 @@
 #define SCREEN_TOP_BOUNDARY       0
 #define SCREEN_BOTTOM_BOUNDARY    480
 
+#define TEXT_LEFT_BOUNDARY        -4
+#define TEXT_RIGHT_BOUNDARY       65
+#define TEXT_TOP_BOUNDARY         -1
+#define TEXT_BOTTOM_BOUNDARY      19
+
+#define SCORE_BUFFER_SIZE         4
+#define SCORE_NUM_CHARACTERS      3
+#define SCORE_DISPLAY_FORMAT      "%03d"
+#define SCORE_TEXT_X_POSITION     12
+#define SCORE_TEXT_Y_POSITION     0
+
 #define PADDLE_SPEED              10
 #define BALL_SPEED                7.5
 
@@ -66,8 +77,8 @@ char * screen_message;
 
 int player_one_score;
 int player_two_score;
-char player_one_score_string[4];
-char player_two_score_string[4];
+char player_one_score_string[SCORE_BUFFER_SIZE];
+char player_two_score_string[SCORE_BUFFER_SIZE];
 
 int ball_position_x;
 int ball_position_y;
@@ -253,10 +264,16 @@ void pong_game_draw_ball()
 
 void pong_game_draw_scores()
 {
-    snprintf(player_one_score_string, 4, "%03d", player_one_score);
-    snprintf(player_two_score_string, 4, "%03d", player_two_score);
-    pong_graphics_draw_text(player_one_score_string, 8, 0);
-    pong_graphics_draw_text(player_two_score_string, 50, 0);
+    snprintf(player_one_score_string, SCORE_BUFFER_SIZE, SCORE_DISPLAY_FORMAT,
+             player_one_score);
+    snprintf(player_two_score_string, SCORE_BUFFER_SIZE, SCORE_DISPLAY_FORMAT,
+             player_two_score);
+    pong_graphics_draw_text(player_one_score_string,
+                            TEXT_LEFT_BOUNDARY + SCORE_TEXT_X_POSITION,
+                            SCORE_TEXT_Y_POSITION);
+    pong_graphics_draw_text(player_two_score_string,
+                            TEXT_RIGHT_BOUNDARY - SCORE_TEXT_X_POSITION -
+                            SCORE_NUM_CHARACTERS, SCORE_TEXT_Y_POSITION);
 }
 
 void pong_game_draw_messages()
