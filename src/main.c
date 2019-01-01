@@ -25,9 +25,9 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
-#include <proc_ui/procui.h>
 #include <whb/crash.h>
 #include <whb/log.h>
+#include <whb/log_cafe.h>
 #include <whb/log_udp.h>
 #include <whb/proc.h>
 
@@ -38,6 +38,7 @@
 
 int main(int argc, char ** argv)
 {
+    WHBLogCafeInit();
     WHBLogUdpInit();
     WHBLogPrint("[  main  ] Pong is starting up...");
 
@@ -80,6 +81,7 @@ int main(int argc, char ** argv)
 
     WHBLogPrint("[  main  ] Pong is shutting down...");
     WHBLogUdpDeinit();
+    WHBLogCafeDeinit();
 
     return 0;
 }
