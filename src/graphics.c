@@ -46,10 +46,10 @@ void * gamepad_buffer;
 
 void pong_graphics_clearbuffers()
 {
-    pong_graphics_clearscreen(0, 0, 0);
+    pong_graphics_clearscreen(0x00000000);
     pong_graphics_render();
 
-    pong_graphics_clearscreen(0, 0, 0);
+    pong_graphics_clearscreen(0x00000000);
     pong_graphics_render();
 }
 
@@ -139,11 +139,9 @@ void pong_graphics_shutdown()
     graphics_initialized = FALSE;
 }
 
-void pong_graphics_clearscreen(uint8_t red, uint8_t green, uint8_t blue)
+void pong_graphics_clearscreen(uint32_t colour)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
-
-    uint32_t colour = (red << 24) | (green << 16) | (blue << 8);
 
     OSScreenClearBufferEx(SCREEN_TV, colour);
     OSScreenClearBufferEx(SCREEN_DRC, colour);
@@ -157,24 +155,21 @@ void pong_graphics_render()
     OSScreenFlipBuffersEx(SCREEN_DRC);
 }
 
-void pong_graphics_draw_pixel(uint32_t x, uint32_t y, uint8_t red,
-                              uint8_t green, uint8_t blue)
+void pong_graphics_draw_pixel(uint32_t x, uint32_t y, uint32_t colour)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
-
-    uint32_t colour = (red << 24) | (green << 16) | (blue << 8);
-
+    //TODO: Draw to TV screen
     OSScreenPutPixelEx(SCREEN_DRC, x, y, colour);
 }
 
 void pong_graphics_draw_rectangle(int x, int y, int width, int height,
-                                  uint8_t red, uint8_t green, uint8_t blue)
+                                  uint32_t colour)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
 
     for(int i = (x - (width / 2)); i < (x + (width / 2)); i++) {
         for(int j = (y - (height / 2)); j < (y + (height / 2)); j++) {
-            pong_graphics_draw_pixel(i, j, red, green, blue);
+            pong_graphics_draw_pixel(i, j, colour);
         }
     }
 }

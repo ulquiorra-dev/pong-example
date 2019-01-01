@@ -33,9 +33,7 @@
 #include "game.h"
 #include "graphics.h"
 
-#define BACKGROUND_RED   32
-#define BACKGROUND_GREEN 48
-#define BACKGROUND_BLUE  48
+#define BACKGROUND_COLOUR 0x20303000
 
 int main(int argc, char ** argv)
 {
@@ -64,8 +62,7 @@ int main(int argc, char ** argv)
         pong_game_check_ball_collision();
         pong_game_check_ball_off_screen();
 
-        pong_graphics_clearscreen(BACKGROUND_RED, BACKGROUND_GREEN,
-                                  BACKGROUND_BLUE);
+        pong_graphics_clearscreen(BACKGROUND_COLOUR);
         pong_game_draw_player_one_paddle();
         pong_game_draw_player_two_paddle();
         pong_game_draw_ball();

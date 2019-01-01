@@ -49,21 +49,13 @@
 #define PADDLE_WIDTH              20
 #define PADDLE_HEIGHT             100
 
-#define PADDLE_ONE_RED            128
-#define PADDLE_ONE_GREEN          255
-#define PADDLE_ONE_BLUE           128
-
-#define PADDLE_TWO_RED            128
-#define PADDLE_TWO_GREEN          128
-#define PADDLE_TWO_BLUE           255
+#define PADDLE_ONE_COLOUR         0x7FFF7F00
+#define PADDLE_TWO_COLOUR         0x7F7FFF00
 
 #define BALL_INITIAL_X_POSITION   (SCREEN_RIGHT_BOUNDARY / 2)
 #define BALL_INITIAL_Y_POSITION   (SCREEN_BOTTOM_BOUNDARY / 2)
 #define BALL_RADIUS               15
-
-#define BALL_RED                  255
-#define BALL_GREEN                128
-#define BALL_BLUE                 128
+#define BALL_COLOUR               0xFF7F7F00
 
 VPADStatus gamepad_status;
 VPADReadError gamepad_communication_error;
@@ -242,24 +234,21 @@ void pong_game_check_ball_off_screen()
 void pong_game_draw_player_one_paddle()
 {
     pong_graphics_draw_rectangle(SCREEN_LEFT_BOUNDARY + PADDLE_X_POSITION,
-                                 player_one_paddle_position,
-                                 PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_ONE_RED,
-                                 PADDLE_ONE_GREEN, PADDLE_ONE_BLUE);
+                                 player_one_paddle_position, PADDLE_WIDTH,
+                                 PADDLE_HEIGHT, PADDLE_ONE_COLOUR);
 }
 
 void pong_game_draw_player_two_paddle()
 {
     pong_graphics_draw_rectangle(SCREEN_RIGHT_BOUNDARY - PADDLE_X_POSITION,
-                                 player_two_paddle_position,
-                                 PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_TWO_RED,
-                                 PADDLE_TWO_GREEN, PADDLE_TWO_BLUE);
+                                 player_two_paddle_position, PADDLE_WIDTH,
+                                 PADDLE_HEIGHT, PADDLE_TWO_COLOUR);
 }
 
 void pong_game_draw_ball()
 {
     pong_graphics_draw_rectangle(ball_position_x, ball_position_y,
-                                 BALL_RADIUS, BALL_RADIUS, BALL_RED,
-                                 BALL_GREEN, BALL_BLUE);
+                                 BALL_RADIUS, BALL_RADIUS, BALL_COLOUR);
 }
 
 void pong_game_draw_scores()
