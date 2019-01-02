@@ -219,7 +219,35 @@ void pong_game_check_ball_collision()
        ball_position_y > (SCREEN_BOTTOM_BOUNDARY - (BALL_CIRCUMFERENCE / 2)))
     {
         ball_movement_y = -ball_movement_y;
-        WHBLogPrint("[  game  ] Boing");
+        WHBLogPrint("[  game  ] Boing! (ball collided with wall)");
+    }
+
+    if(ball_position_y > (player_one_paddle_position - (PADDLE_HEIGHT / 2)) &&
+       ball_position_y < (player_one_paddle_position + (PADDLE_HEIGHT / 2)))
+    {
+        if(ball_position_x < ((SCREEN_LEFT_BOUNDARY + PADDLE_X_POSITION) +
+           (PADDLE_WIDTH / 2)) &&
+           ball_position_x > (SCREEN_LEFT_BOUNDARY + PADDLE_X_POSITION))
+        {
+            if(ball_movement_x < 0) {
+                ball_movement_x = -ball_movement_x;
+                WHBLogPrint("[  game  ] Boing! (ball collided with P1 paddle)");
+            }
+        }
+    }
+
+    if(ball_position_y > (player_two_paddle_position - (PADDLE_HEIGHT / 2)) &&
+       ball_position_y < (player_two_paddle_position + (PADDLE_HEIGHT / 2)))
+    {
+        if(ball_position_x > ((SCREEN_RIGHT_BOUNDARY - PADDLE_X_POSITION) -
+           (PADDLE_WIDTH / 2)) &&
+           ball_position_x < (SCREEN_RIGHT_BOUNDARY - PADDLE_X_POSITION))
+        {
+            if(ball_movement_x > 0) {
+                ball_movement_x = -ball_movement_x;
+                WHBLogPrint("[  game  ] Boing! (ball collided with P2 paddle)");
+            }
+        }
     }
 }
 
