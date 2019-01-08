@@ -25,6 +25,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  ******************************************************************************/
 
+#include <coreinit/cache.h>
 #include <coreinit/memheap.h>
 #include <coreinit/memfrmheap.h>
 #include <coreinit/screen.h>
@@ -151,6 +152,9 @@ void pong_graphics_clearscreen(uint32_t colour)
 void pong_graphics_render()
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
+
+    DCFlushRange(tv_buffer, tv_size);
+    DCFlushRange(gamepad_buffer, gamepad_size);
 
     OSScreenFlipBuffersEx(SCREEN_TV);
     OSScreenFlipBuffersEx(SCREEN_DRC);
