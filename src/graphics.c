@@ -35,6 +35,15 @@
 
 #include "graphics.h"
 
+#define CALLBACK_PRIORITY     100
+#define FRAMEBUFFER_ALIGNMENT 0x100
+#define PONG_MEMORY_STATE     0x504F4E47
+
+#define TEXT_CONSOLE_WIDTH    69
+#define TEXT_LEFT_BOUNDARY    -4
+
+#define COLOUR_BLACK          0x00000000
+
 BOOL graphics_initialized = FALSE;
 BOOL framebuffer_initialized = FALSE;
 
@@ -48,10 +57,10 @@ void * gamepad_buffer;
 
 void pong_graphics_clearbuffers()
 {
-    pong_graphics_clearscreen(0x00000000);
+    pong_graphics_clearscreen(COLOUR_BLACK);
     pong_graphics_render();
 
-    pong_graphics_clearscreen(0x00000000);
+    pong_graphics_clearscreen(COLOUR_BLACK);
     pong_graphics_render();
 }
 
@@ -63,7 +72,7 @@ uint32_t pong_graphics_initbuffers(void * context)
 
     WHBLogPrint("[graphics] Initializing MEM1 memory heap...");
     mem1_heap = MEMGetBaseHeapHandle(MEM_BASE_HEAP_MEM1);
-    MEMRecordStateForFrmHeap(mem1_heap, 0x504F4E47);
+    MEMRecordStateForFrmHeap(mem1_heap, PONG_MEMORY_STATE);
 
     WHBLogPrint("[graphics] Initializing OSScreen...");
     OSScreenInit();
@@ -73,13 +82,15 @@ uint32_t pong_graphics_initbuffers(void * context)
 
     WHBLogPrintf("[graphics] Allocating %d bytes for TV framebuffer, %d bytes "
                  "for GamePad framebuffer...", tv_size, gamepad_size);
-    tv_buffer = MEMAllocFromFrmHeapEx(mem1_heap, tv_size, 0x100);
-    gamepad_buffer = MEMAllocFromFrmHeapEx(mem1_heap, gamepad_size, 0x100);
+    tv_buffer = MEMAllocFromFrmHeapEx(mem1_heap, tv_size,
+                                      FRAMEBUFFER_ALIGNMENT);
+    gamepad_buffer = MEMAllocFromFrmHeapEx(mem1_heap, gamepad_size,
+                                           FRAMEBUFFER_ALIGNMENT);
 
     if(!tv_buffer || !gamepad_buffer) {
         WHBLogPrint("[graphics] Failed to allocate a framebuffer in memory. "
                     "You won't see anything while the program runs. :(");
-        MEMFreeByStateToFrmHeap(mem1_heap, 0x504F4E47);
+        MEMFreeByStateToFrmHeap(mem1_heap, PONG_MEMORY_STATE);
         return -1;
     }
 
@@ -108,7 +119,7 @@ uint32_t pong_graphics_freebuffers(void * context)
     pong_graphics_clearbuffers();
 
     WHBLogPrint("[graphics] De-allocating framebuffers...");
-    MEMFreeByStateToFrmHeap(mem1_heap, 0x504F4E47);
+    MEMFreeByStateToFrmHeap(mem1_heap, PONG_MEMORY_STATE);
 
     framebuffer_initialized = FALSE;
     return 0;
@@ -122,9 +133,9 @@ void pong_graphics_init()
 
     WHBLogPrint("[graphics] Registering foreground callbacks...");
     ProcUIRegisterCallback(PROCUI_CALLBACK_ACQUIRE, pong_graphics_initbuffers,
-                           NULL, 100);
+                           NULL, CALLBACK_PRIORITY);
     ProcUIRegisterCallback(PROCUI_CALLBACK_RELEASE, pong_graphics_freebuffers,
-                           NULL, 100);
+                           NULL, CALLBACK_PRIORITY);
 
     graphics_initialized = TRUE;
 }
@@ -191,6 +202,6 @@ void pong_graphics_draw_text_centre(const char * string, int32_t line)
 {
     if(!graphics_initialized || !framebuffer_initialized) return;
 
-    int x = ((70 - strlen(string)) / 2) - 4;
+    int x = ((TEXT_CONSOLE_WIDTH - strlen(string)) / 2) + TEXT_LEFT_BOUNDARY;
     pong_graphics_draw_text(string, x, line);
 }

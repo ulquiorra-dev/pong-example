@@ -45,7 +45,7 @@
 #define TEXT_LEFT_BOUNDARY        -4
 #define TEXT_RIGHT_BOUNDARY       65
 #define TEXT_TOP_BOUNDARY         -1
-#define TEXT_BOTTOM_BOUNDARY      19
+#define TEXT_BOTTOM_BOUNDARY      17
 
 #define SCORE_BUFFER_SIZE         4
 #define SCORE_NUM_CHARACTERS      3
@@ -281,7 +281,8 @@ void pong_game_check_ball_off_screen()
 void pong_game_draw_ball()
 {
     pong_graphics_draw_rectangle(ball_position_x, ball_position_y,
-                                 BALL_CIRCUMFERENCE, BALL_CIRCUMFERENCE, BALL_COLOUR);
+                                 BALL_CIRCUMFERENCE, BALL_CIRCUMFERENCE,
+                                 BALL_COLOUR);
 }
 
 void pong_game_draw_player_one_paddle()
@@ -315,7 +316,9 @@ void pong_game_draw_scores()
 void pong_game_draw_messages()
 {
     if(game_halted) {
-        pong_graphics_draw_text_centre(screen_message, 15);
-        pong_graphics_draw_text_centre("Press + to start", 16);
+        pong_graphics_draw_text_centre(screen_message,
+                                       (TEXT_BOTTOM_BOUNDARY - 2));
+        pong_graphics_draw_text_centre("Press + to start",
+                                       (TEXT_BOTTOM_BOUNDARY - 1));
     }
 }
