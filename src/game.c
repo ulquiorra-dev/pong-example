@@ -72,7 +72,7 @@
 #define BALL_COLOUR               0xFF7F7F00
 
 VPADStatus gamepad_status;
-VPADReadError gamepad_communication_error;
+VPADReadError gamepad_communication_status;
 
 BOOL game_should_reset;
 BOOL game_halted;
@@ -135,9 +135,9 @@ void pong_game_init()
 
 void pong_game_update_inputs()
 {
-    VPADRead(VPAD_CHAN_0, &gamepad_status, 1, &gamepad_communication_error);
+    VPADRead(VPAD_CHAN_0, &gamepad_status, 1, &gamepad_communication_status);
 
-    if(gamepad_communication_error == VPAD_READ_SUCCESS) {
+    if(gamepad_communication_status == VPAD_READ_SUCCESS) {
         if(gamepad_status.trigger & VPAD_BUTTON_PLUS) {
             if(game_halted) {
                 game_halted = FALSE;
@@ -161,7 +161,7 @@ void pong_game_update_player_one_location()
         return;
     }
 
-    if(gamepad_communication_error == VPAD_READ_SUCCESS) {
+    if(gamepad_communication_status == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_UP) {
             player_one_paddle_position -= PADDLE_SPEED;
             if(player_one_paddle_position < PADDLE_HIGHEST_POSITION) {
@@ -184,7 +184,7 @@ void pong_game_update_player_two_location()
         return;
     }
 
-    if(gamepad_communication_error == VPAD_READ_SUCCESS) {
+    if(gamepad_communication_status == VPAD_READ_SUCCESS) {
         if(gamepad_status.hold & VPAD_BUTTON_X) {
             player_two_paddle_position -= PADDLE_SPEED;
             if(player_two_paddle_position < PADDLE_HIGHEST_POSITION) {
