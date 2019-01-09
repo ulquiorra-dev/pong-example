@@ -77,7 +77,7 @@ These deployment folders are also automatically zipped and are ready to distribu
 Note that your console will need to be running an IOSU custom firmware (e.g. [Mocha](https://github.com/dimok789/mocha), [Haxchi](https://github.com/FIX94/haxchi)) or some other method of preventing IOSU from trying to verify signatures in order to install/run the channel version of Pong. I only ever tried installing Pong on redNAND, but it should be installable on a sysNAND CFW as well.
 
 ## How it works
-The code files and build scripts are very thoroughly documented using code comments, simply open any of the source files to find all the information you should need.
+The code files and build scripts are very thoroughly documented using code comments, simply open any of the source files to find all the information you should need. You may wish to have the [WUT documentation](https://decaf-emu.github.io/wut) open while you read the source code.
 
 ## Deployment Assets
 Inside the `deploy` folder are two folders which contain the assets for two different distributions of the app. The `hbl` folder contains the `icon.png` and `meta.xml` files to make the program look good in the Homebrew Launcher's list of apps. And the `channel` folder contains the `code` and `meta` (`content` is unused in this example) for distributing the app as an installable 'channel' app on the Wii U.
