@@ -124,7 +124,7 @@ int main(int argc, char ** argv)
         pong_game_update_player_two_location();
         pong_game_update_ball_location();
         pong_game_check_ball_collision();
-        pong_game_check_ball_off_screen();
+        pong_game_check_win_and_reset();
 
         pong_graphics_clearscreen(BACKGROUND_COLOUR);
         pong_game_draw_ball();
