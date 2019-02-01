@@ -87,7 +87,7 @@ The game is played using the Wii U GamePad. There is currently no support for th
 | +/START    | Pause and resume the game       |
 | D-Pad Up   | Move the left paddle up         |
 | D-Pad Down | Move the left paddle down       |
-| X          | Move the right pad up           |
+| X          | Move the right paddle up        |
 | B          | Move the right paddle down      |
 | HOME       | Exit (HBL), HOME Menu (channel) |
 
