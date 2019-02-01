@@ -103,7 +103,7 @@
 // This is used to provide callbacks to the ProcUI system that allow the
 // program to automatically remove and re-allocate things in MEM1 when
 // transitioning into the background and foreground, respectively.
-// This functionality is not ptovided by WUT's ProcUI wrapper (whb/proc.h)
+// This functionality is not provided by WUT's ProcUI wrapper (whb/proc.h)
 // and so must be implemented manually.
 #include <proc_ui/procui.h>
 
@@ -198,7 +198,7 @@ uint32_t pong_graphics_initbuffers(void * context)
     mem1_heap = MEMGetBaseHeapHandle(MEM_BASE_HEAP_MEM1);
     MEMRecordStateForFrmHeap(mem1_heap, PONG_MEMORY_STATE);
 
-    // Initialize the OSScreen library
+    // Initialize the OSScreen library.
     WHBLogPrint("[graphics] Initializing OSScreen...");
     OSScreenInit();
 
@@ -220,6 +220,9 @@ uint32_t pong_graphics_initbuffers(void * context)
 
     // The memory allocations should never fail, but if they do, ensure that
     // the heap is empty and then return with an error code.
+    // This results in that situation I described earlier in which the
+    // graphics library itself is considered to be initialized, but the
+    // framebuffers do not exist in memory.
     if(!tv_buffer || !gamepad_buffer) {
         WHBLogPrint("[graphics] Failed to allocate a framebuffer in memory. "
                     "You won't see anything while the program runs. :(");
@@ -270,7 +273,7 @@ uint32_t pong_graphics_freebuffers(void * context)
     return 0;
 }
 
-// This function is called at the beginning of main() and is respobsible for
+// This function is called at the beginning of main() and is responsible for
 // both initializing the framebuffers and telling ProcUI about our callback
 // functions for process transitions.
 void pong_graphics_init()

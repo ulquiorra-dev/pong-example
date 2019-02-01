@@ -67,17 +67,17 @@
 #include "game.h"
 #include "graphics.h"
 
-// Exact value of Pi (3.1415926...) - used to convert from degrees to radians
+// Exact value of Pi (3.1415926...) - used to convert from degrees to radians.
 #define PI (22.0 / 7.0)
 
-// These represent the dimensions of the GamePad screen, 854x480 in size
+// These represent the dimensions of the GamePad screen, 854x480 in size.
 #define SCREEN_LEFT_BOUNDARY      0
 #define SCREEN_RIGHT_BOUNDARY     854
 #define SCREEN_TOP_BOUNDARY       0
 #define SCREEN_BOTTOM_BOUNDARY    480
 
 // These represent the dimensions of the GamePad screen's text interface - see
-// graphics.c for more information
+// graphics.c for more information.
 #define TEXT_LEFT_BOUNDARY        -4
 #define TEXT_RIGHT_BOUNDARY       65
 #define TEXT_TOP_BOUNDARY         -1
@@ -129,10 +129,10 @@
 // You can use a bitwise AND operation to determine whether or not a specific
 // button is being held down, e.g. (gamepad_status.hold & VPAD_BUTTON_A) will
 // be TRUE if the GamePad's A button is currently being held down.
-// We also use a similar bitmask called gamepad_status.trigger which holds
+// We also use a similar bitmask called gamepad_status.trigger which contains
 // all the buttons that have only just been pressed since the last time the
 // GamePad was queried, so querying the GamePad again will result in the button
-// press being listed in .hold rather than .trigger
+// press being listed in .hold rather than .trigger.
 VPADStatus gamepad_status;
 
 // Remember that the GamePad is connected to the Wii U console using a Wi-Fi
@@ -148,7 +148,8 @@ VPADReadError gamepad_communication_status;
 BOOL game_should_reset;
 
 // Determines whether or not the game should be calculating movement - the game
-// should be halted when a player has won or when the game is paused (+ button)
+// should be halted when a player has won or when the game is paused (by
+// pressing the + button).
 BOOL game_halted;
 
 // When the game is halted or paused, a message is displayed at the bottom of
@@ -172,12 +173,12 @@ int ball_movement_x;
 int ball_movement_y;
 
 // The vertical position of the player paddles (the paddles can only be moved
-// up or down)
+// up or down).
 int player_one_paddle_position;
 int player_two_paddle_position;
 
-// This function is used to calculate a new pseudo-random direction for the
-// ball to travel at the beginning of a game.
+// This function is used at the beginning of a game to calculate a new
+// pseudo-random direction for the ball to travel.
 void pong_game_generate_ball_direction()
 {
     BOOL valid_rotation = FALSE;
@@ -203,7 +204,7 @@ void pong_game_generate_ball_direction()
     }
 
     // This converts the direction value from degrees to radians, for use by
-    // the trigonemtric functions below.
+    // the trigonometric functions below.
     double radians = degrees * (PI / 180);
     WHBLogPrintf("[  game  ] Initial ball direction: %d degrees (%f radians)",
                  degrees, radians);
@@ -323,7 +324,7 @@ void pong_game_update_player_two_location()
     }
 }
 
-// Handles moving the ball - pretty self-explanatory
+// Handles moving the ball - pretty self-explanatory.
 void pong_game_update_ball_location()
 {
     if(game_halted) return;
@@ -344,7 +345,7 @@ void pong_game_update_ball_location()
 void pong_game_check_ball_collision()
 {
     // This is TRUE if the ball is either moving out of the top/bottom
-    // boundaries of the screen - to make the ball "bouce" we simply negate
+    // boundaries of the screen - to make the ball "bounce" we simply negate
     // its y-axis movement factor.
     if(ball_position_y < (SCREEN_TOP_BOUNDARY + (BALL_CIRCUMFERENCE / 2)) ||
        ball_position_y > (SCREEN_BOTTOM_BOUNDARY - (BALL_CIRCUMFERENCE / 2)))
@@ -458,7 +459,7 @@ void pong_game_draw_scores()
 }
 
 // Draws the message at the bottom of the screen for when the game is paused
-// or otherwise stopped (beginning/end of a game)
+// or otherwise stopped (beginning/end of a game).
 void pong_game_draw_messages()
 {
     if(game_halted) {

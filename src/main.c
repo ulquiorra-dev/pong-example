@@ -45,7 +45,7 @@
 // Used to enable WUT to store log messages in the Cafe OS system log, which is
 // mostly useful for running the program using decaf-cli, as Cafe system log
 // messages are output by Decaf. In certain circumstances, the Cafe OS log is
-// dumped to NAND after an error, and can be read later usinf a custom firmware
+// dumped to NAND after an error, and can be read later using a custom firmware
 // that enables access to the NAND filesystem (specifically the 'logs' folder
 // on the SLC NAND chip).
 #include <whb/log_cafe.h>
