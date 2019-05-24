@@ -33,9 +33,9 @@
 
 # This is all pretty self-explanatory.
 cmake_minimum_required(VERSION 3.2)
-set(CMAKE_TOOLCHAIN_FILE "$ENV{WUT_ROOT}/share/wut.toolchain.cmake")
+set(CMAKE_TOOLCHAIN_FILE "$ENV{DEVKITPRO}/wut/share/wut.toolchain.cmake")
 project(pong-example C)
-include("${WUT_ROOT}/share/wut.cmake" REQUIRED)
+include("${DEVKITPRO}/wut/share/wut.cmake" REQUIRED)
 
 # Determine whether or not wiiload and makefst are installed.
 find_program(found-wiiload wiiload)
@@ -46,25 +46,9 @@ add_executable(pong
     src/graphics.c
     src/main.c)
 
-# whb provides WUT's built in functions like logging and process management
-# coreinit includes many miscellaneous system functions for the Wii U
-# nsysnet is required by WUT's network logger
-# proc_ui is required by WUT's process manager
-# sysapp is also required by WUT's process manager
-# vpad is used to communicate with the GamePad
-# m is the standard maths library
-target_link_libraries(pong
-    whb
-    coreinit
-    nsysnet
-    proc_ui
-    sysapp
-    vpad
-    m)
-
-# Enable's WUT's configuration to allow newlib's standard C library to work on
-# the Wii U
-wut_enable_newlib(pong)
+# Link to the standard maths library, provides implementations of the sine and
+# cosine trigonometric functions.
+target_link_libraries(pong m)
 
 # Transforms the executable created above into an RPX file for the Wii U
 wut_create_rpx(pong.rpx pong)
